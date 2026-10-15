@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Welcome</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,sans-serif}
+html,body{height:100%;overflow:hidden;background:#0b1030}
+.sky{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+
+    background:linear-gradient(
+        to bottom,
+        #ffffff 0%,
+        #f8fcff 8%,
+        #dff4ff 15%,
+        #87CEEB 35%,
+        #5bb8e8 100%
+    );
+
+}
+.sky::before {
+content: "";
+position: absolute;
+inset: 0;
+
+background: linear-gradient(to bottom,
+    #0b1030 0%,
+    #0b1030 10%,
+    #3b1d6e 55%,
+    #f97316 100%
+);
+
+opacity: 0;
+animation: nightFade 45s infinite ease-in-out;
+
+}
+.sun {
+  position: absolute;
+  top: 18vh;
+  left: 10vw;
+  
+  width: 70px;
+  height: 70px;
+  
+  border-radius: 50%;
+  
+  background: #FFD93D;
+  
+  box-shadow: 0 0 40px #FFD93D;
+  
+  animation: sunCycle 45s infinite ease-in-out;
+}
+
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: #fff;
+  
+  animation: starCycle 45s infinite ease-in-out;
+}
+@keyframes tw{50%{opacity:.2}}
+
+@keyframes nightFade {
+0% {
+opacity: 0;
+}
+
+25% {
+    opacity: 0.5;
+}
+
+50% {
+    opacity: 1;
+}
+
+75% {
+    opacity: 0.5;
+}
+
+100% {
+    opacity: 0;
+}
+
+}
+@keyframes sunCycle {
+  
+  0% {
+    opacity: 1;
+  }
+  
+  50% {
+    opacity: 0;
+  }
+  
+  100% {
+    opacity: 1;
+  }
+  
+}
+@keyframes moonCycle {
+  
+  0% {
+    opacity: 0;
+  }
+  
+  50% {
+    opacity: 1;
+  }
+  
+  100% {
+    opacity: 0;
+  }
+  
+}
+@keyframes starCycle {
+  
+  0% {
+    opacity: 0;
+  }
+  
+  50% {
+    opacity: 1;
+  }
+  
+  100% {
+    opacity: 0;
+  }
+  
+}
+.moon {
+  position: absolute;
+  top: 6vh;
+  right: 10vw;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #FCFCFC;
+  box-shadow: 0 0 30px #CCCB99;
+  animation:moonCycle 45s infinite ease-in-out;
+}
+
+
+/* city */
+.city{position:absolute;left:0;right:0;bottom:0;height:22vh;display:flex;align-items:flex-end;gap:3px;padding:0 3px}
+.b{flex:1;background:#080b20;display:flex;flex-wrap:wrap;align-content:flex-start;gap:4px;padding:6px 4px;overflow:hidden}
+.w{display:block;width:5px;height:6px;background:#26304a}
+.w.on{background:#fde047;animation:tw 4s infinite}
+
+/* card */
+.card {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+
+    width: 90%;
+    max-width: 340px;
+
+    height: 80vh;
+    max-height: 90vh;
+
+    padding: 24px 22px;
+
+    z-index: 3;
+
+    border-radius: 20px;
+
+    background: rgba(255,255,255,.14);
+
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    border: 1px solid rgba(255,255,255,.3);
+
+    color: #fff;
+
+    box-shadow: 0 20px 50px rgba(0,0,0,.35);
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transform: translate(-50%,-50%) scale(.1);
+
+    animation:
+        unfold 1s 1s
+        cubic-bezier(.2,.9,.3,1.25)
+        forwards;
+
+    overflow-y: auto;
+}
+
+.card.ready{pointer-events:auto}
+
+@keyframes unfold{
+0%{opacity:0;transform:translate(-50%,-50%) scale(.1) rotate(-20deg)}
+30%{opacity:1}
+100%{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(0)}}
+
+h1{text-align:center;font-size:1.35rem;margin-bottom:16px
+  
+}
+
+.field{position:relative;margin-bottom:16px}
+
+.field input,
+.field select{width:100%;padding:16px 14px 8px;border:2px solid transparent;border-radius:12px;
+background:rgba(255,255,255,.2);color:#fff;font-size:1rem;outline:none;transition:.3s}
+
+.field input:focus,
+.field select:focus{border-color:#fff;background:rgba(255,255,255,.28)}
+
+.field label{display:block;margin-bottom:6px;font-size:.85rem}
+
+.field select option{color:#000}
+
+.go{width:100%;padding:14px;border:none;border-radius:12px;background:#FBB12A;color:#220B53;font-size:1rem;font-weight:700;transition:transform .2s}
+
+.go:active{transform:scale(.97)}
+
+.msg{text-align:center;min-height:1.2em;margin-top:10px;font-size:.85rem}
+
+#inner.shake{animation:shake .4s}
+
+@keyframes shake{20%,60%{transform:translateX(-10px)}40%,80%{transform:translateX(10px)}}
+</style>
+
+</head>
+
+<body>
+
+<div class="sky" id="sky">
+  
+  
+  <div class="sun"></div>
+
+  <div class="moon"></div>
+
+  <div class="city" id="city"></div>
+
+  
+
+  <form class="card" id="card" onsubmit="return submitForm(event)">
+
+    <div id="inner">
+
+      <h1 style="color: #FBB12A ;">BOOK A RIDE</h1>
+
+      <div class="field">
+        <label for="name">Your Name</label>
+
+        <input
+          type="text"
+          id="name"
+          placeholder="Enter your name"
+          required
+        >
+      </div>
+
+      <div class="field">
+        <label for="phone">Phone Number</label>
+
+        <input
+          type="tel"
+          id="phone"
+          placeholder="eg;08121622361"
+          required
+        >
+      </div>
+
+      <div class="field">
+        <label for="pickup">Pickup Location</label>
+
+        <input
+          type="text"
+          id="pickup"
+          placeholder="eg; school gate"
+          required
+        >
+      </div>
+
+      <div class="field">
+        <label for="destination">Destination</label>
+
+        <input
+          type="text"
+          id="destination"
+          placeholder="eg;abba maket"
+          required
+        >
+      </div>
+
+      <div class="field">
+        <label for="vehicle">Vehicle</label>
+
+        <input type="text" id="vehi"
+        placeholder="keke 🛺
+        "
+        required>
+      </div>
+
+      <button class="go" id="btn" type="submit">
+        Book Ride
+      </button>
+
+      <p class="msg" id="msg"></p>
+
+    </div>
+
+  </form>
+
+</div>
+
+<script>
+
+// stars
+const sky=document.getElementById('sky');
+
+for(let i=0;i<40;i++){
+
+  const s=document.createElement('div');
+
+  s.className='star';
+
+  s.style.left=Math.random()*100+'%';
+
+  s.style.top=Math.random()*50+'%';
+
+s.style.animationDelay='0s';
+
+  sky.prepend(s);
+
+}
+
+
+// city
+const city=document.getElementById('city');
+
+for(let i=0;i<14;i++){
+
+  const b=document.createElement('div');
+
+  b.className='b';
+
+  b.style.height=(35+Math.random()*65)+'%';
+
+  for(let j=0;j<16;j++){
+
+    const w=document.createElement('i');
+
+    w.className='w'+(Math.random()<.4?' on':'');
+
+    w.style.animationDelay=Math.random()*4+'s';
+
+    b.appendChild(w);
+
+  }
+
+  city.appendChild(b);
+
+}
+
+
+const card=document.getElementById('card');
+
+card.classList.add('ready');
+
+function submitForm(e){
+  e.preventDefault();
+
+  const btn=document.getElementById('btn');
+
+  const msg=document.getElementById('msg');
+
+  btn.textContent='Booking...';
+
+  msg.textContent='';
+
+  setTimeout(()=>{
+
+    btn.textContent='✓ Ride Requested';
+
+    msg.textContent='Noble Services will contact you soon.';
+
+  },1500);
+
+  return false;
+}
+
+</script>
+
+</body>
+</html>
