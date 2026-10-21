@@ -1,0 +1,772 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noble Services | Admin Dashboard</title><style>
+:root {
+    --purple: #220B53;
+    --yellow: #FBB12A;
+    --background: #080C20;
+    --card: #11142F;
+    --border: #252A50;
+    --text: #FFFFFF;
+    --muted: #B8C2E8;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: var(--background);
+    color: var(--text);
+}
+
+button, input, select {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.header {
+    height: 80px;
+    background: var(--purple);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 25px;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: bold;
+    color: white;
+}
+
+.logo span {
+    color: var(--yellow);
+}
+
+.admin-label {
+    color: var(--yellow);
+    font-size: 14px;
+}
+
+.layout {
+    display: flex;
+    min-height: calc(100vh - 80px);
+}
+
+.sidebar {
+    width: 245px;
+    flex-shrink: 0;
+    background: #100725;
+    padding: 25px 12px;
+    border-right: 1px solid var(--border);
+}
+
+.nav-link {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 8px;
+    border: none;
+    border-radius: 8px;
+    text-align: left;
+    color: var(--muted);
+    background: transparent;
+    font-size: 15px;
+}
+
+.nav-link.active,
+.nav-link:hover {
+    background: var(--yellow);
+    color: #160B24;
+}
+
+.main {
+    flex: 1;
+    min-width: 0;
+    padding: 28px;
+}
+
+.welcome {
+    margin-bottom: 25px;
+}
+
+.welcome h1 {
+    font-size: 27px;
+    margin-bottom: 9px;
+}
+
+.welcome h1 span {
+    color: var(--yellow);
+}
+
+.welcome p {
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 24px;
+    border-radius: 12px;
+}
+
+.stat-card h3 {
+    color: var(--muted);
+    font-size: 15px;
+    font-weight: normal;
+    margin-bottom: 15px;
+}
+
+.stat-number {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.stat-card p {
+    color: var(--yellow);
+    font-size: 13px;
+    margin-top: 9px;
+}
+
+.orders-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.orders-header {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--border);
+}
+
+.orders-header h2 {
+    font-size: 20px;
+}
+
+.search {
+    background: var(--background);
+    border: 1px solid var(--border);
+    color: white;
+    padding: 12px;
+    border-radius: 7px;
+    width: 270px;
+    max-width: 100%;
+    outline: none;
+}
+
+.search:focus {
+    border-color: var(--yellow);
+}
+
+.tabs {
+    display: flex;
+    gap: 10px;
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--border);
+}
+
+.tab {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    padding: 10px 14px;
+    border-radius: 7px;
+}
+
+.tab.active {
+    background: var(--yellow);
+    color: #160B24;
+    border-color: var(--yellow);
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    min-width: 900px;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 16px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+th {
+    background: #19183D;
+    color: var(--muted);
+    font-weight: normal;
+}
+
+td {
+    color: white;
+}
+
+td small {
+    display: block;
+    color: var(--muted);
+    margin-top: 4px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    white-space: nowrap;
+    background: #34395E;
+}
+
+.badge.pending {
+    background: #FBB12A;
+    color: #160B24;
+}
+
+.badge.assigned {
+    background: #174C86;
+}
+
+.badge.ongoing {
+    background: #087B63;
+}
+
+.badge.completed {
+    background: #34395E;
+}
+
+.badge.delivered {
+    background: #5221B8;
+}
+
+.call-btn {
+    border: none;
+    background: #087F61;
+    color: white;
+    padding: 9px 12px;
+    border-radius: 6px;
+    white-space: nowrap;
+}
+
+.call-btn:hover {
+    background: #079B75;
+}
+
+.empty {
+    display: none;
+    padding: 30px;
+    text-align: center;
+    color: var(--muted);
+}
+
+.footer {
+    color: var(--muted);
+    text-align: center;
+    font-size: 12px;
+    padding: 25px 10px;
+}
+@media (max-width: 750px) {
+
+.header {
+    height: 65px;
+    padding: 10px 14px;
+}
+
+.logo {
+    font-size: 17px;
+}
+
+.admin-label {
+    font-size: 11px;
+}
+
+.layout {
+    display: block;
+    min-height: calc(100vh - 65px);
+}
+
+.sidebar {
+    width: 100%;
+    display: flex;
+    gap: 6px;
+    padding: 8px;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+}
+
+.nav-link {
+    flex: 1;
+    min-width: max-content;
+    width: auto;
+    margin: 0;
+    padding: 11px 12px;
+    font-size: 12px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.main {
+    width: 100%;
+    min-width: 0;
+    padding: 16px 12px;
+}
+
+.welcome {
+    margin-bottom: 18px;
+}
+
+.welcome h1 {
+    font-size: 22px;
+}
+
+.welcome p {
+    font-size: 14px;
+}
+
+.stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.stat-card {
+    min-width: 0;
+    padding: 14px 11px;
+}
+
+.stat-card h3 {
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.stat-number {
+    font-size: 26px;
+}
+
+.stat-card p {
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.orders-card {
+    width: 100%;
+    min-width: 0;
+}
+
+.orders-header {
+    padding: 14px;
+    align-items: stretch;
+}
+
+.orders-header h2 {
+    font-size: 19px;
+}
+
+.search {
+    width: 100%;
+    min-width: 0;
+    font-size: 13px;
+}
+
+.tabs {
+    padding: 10px;
+    gap: 6px;
+    overflow-x: auto;
+}
+
+.tab {
+    flex-shrink: 0;
+    padding: 10px;
+    font-size: 12px;
+}
+
+.table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+table {
+    min-width: 850px;
+}
+
+th, td {
+    padding: 12px 10px;
+    font-size: 12px;
+}
+
+.footer {
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+}
+
+</style></head>
+
+<body>
+<div id="adminLogin" style="position:fixed;inset:0;background:#080C20;z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:#11142F;padding:28px;border-radius:16px;width:100%;max-width:380px;color:white;">
+    <h2 style="color:#FBB12A;margin-bottom:20px;">NOBLE SERVICES</h2>
+    <h3 style="margin-bottom:20px;">Admin Login</h3>
+
+    <form id="loginForm">
+      <input id="adminEmail" type="email" placeholder="Admin email" required
+        style="width:100%;padding:13px;margin-bottom:12px;border-radius:8px;border:1px solid #252A50;background:#080C20;color:white;">
+
+      <input id="adminPassword" type="password" placeholder="Password" required
+        style="width:100%;padding:13px;margin-bottom:15px;border-radius:8px;border:1px solid #252A50;background:#080C20;color:white;">
+
+      <button type="submit" id="loginButton"
+        style="width:100%;padding:13px;background:#FBB12A;color:#220B53;border:0;border-radius:8px;font-weight:bold;">
+        Sign In
+      </button>
+
+      <p id="loginMessage" style="margin-top:15px;color:#FBB12A;"></p>
+    </form>
+  </div>
+</div>    
+    <header class="header">
+    <div class="logo">N<span>OBLE</span> SERVICES</div>
+    <div class="admin-label">ADMIN PANEL</div>
+</header><div class="layout"><aside class="sidebar">
+    <button class="nav-link active" data-view="all">🏠 Dashboard</button>
+    <button class="nav-link" data-view="ride">🚗 Ride Requests</button>
+    <button class="nav-link" data-view="dispatch">📦 Dispatch Orders</button>
+</aside>
+
+<main class="main">
+
+    <section class="welcome">
+        <h1>Welcome, <span>Admin</span></h1>
+        <p>View customer requests and contact drivers to arrange pickups.</p>
+    </section>
+
+    <section class="stats">
+
+        <div class="stat-card">
+            <h3>🚗 Ride Requests</h3>
+            <div class="stat-number" id="rideCount">3</div>
+            <p>Customer ride bookings</p>
+        </div>
+
+        <div class="stat-card">
+            <h3>📦 Dispatch Orders</h3>
+            <div class="stat-number" id="dispatchCount">2</div>
+            <p>Package delivery requests</p>
+        </div>
+
+    </section>
+
+    <section class="orders-card">
+
+        <div class="orders-header">
+            <h2 id="ordersTitle">Recent Orders</h2>
+
+            <input
+                type="search"
+                id="search"
+                class="search"
+                placeholder="Search name, phone or location..."
+                aria-label="Search orders"
+            >
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" data-view="all">All Orders</button>
+            <button class="tab" data-view="ride">Ride Requests</button>
+            <button class="tab" data-view="dispatch">Dispatch Orders</button>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Customer</th>
+                        <th>Pickup</th>
+                        <th>Drop-off</th>
+                        <th>Time</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="ordersBody"></tbody>
+            </table>
+        </div>
+
+        <div class="empty" id="empty">
+            No matching orders found.
+        </div>
+
+    </section>
+
+    <div class="footer">
+        NOBLE SERVICES · Connecting People. Delivering More.
+    </div>
+
+</main>
+
+</div>
+<script type="module">
+    import { db, auth } from "./Firebase.js";
+    
+    import {
+        signInWithEmailAndPassword,
+        onAuthStateChanged,
+        signOut
+    } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+    
+    import {
+        collection,
+        onSnapshot,
+        doc,
+        updateDoc
+    } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+    
+    const loginForm = document.getElementById("loginForm");
+    const loginBox = document.getElementById("adminLogin");
+    const loginMessage = document.getElementById("loginMessage");
+    const loginButton = document.getElementById("loginButton");
+    
+    const tableBody = document.getElementById("ordersBody");
+    const search = document.getElementById("search");
+    const empty = document.getElementById("empty");
+    
+    let orders = [];
+    let currentView = "all";
+    let unsubscribeBookings = null;
+    
+    // ADMIN LOGIN
+    loginForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        
+        loginButton.disabled = true;
+        loginButton.textContent = "Signing in...";
+        loginMessage.textContent = "";
+        
+        try {
+            const email = document.getElementById("adminEmail").value.trim();
+            const password = document.getElementById("adminPassword").value;
+            
+            await signInWithEmailAndPassword(auth, email, password);
+        } catch (error) {
+            console.error("Login error:", error);
+            
+            loginMessage.textContent =
+                error.code === "auth/invalid-credential" ?
+                "Incorrect email or password." :
+                "Login failed: " + error.message;
+        } finally {
+            loginButton.disabled = false;
+            loginButton.textContent = "Sign In";
+        }
+    });
+    
+    // DISPLAY BOOKINGS
+    function renderOrders() {
+        if (!tableBody || !search || !empty) return;
+        
+        const query = search.value.toLowerCase().trim();
+        
+        const filtered = orders.filter(order => {
+            const matchesView =
+                currentView === "all" ||
+                order.type.toLowerCase() === currentView;
+            
+            const text = [
+                order.customer,
+                order.phone,
+                order.pickup,
+                order.dropoff,
+                order.type,
+                order.status
+            ].join(" ").toLowerCase();
+            
+            return matchesView && text.includes(query);
+        });
+        
+        tableBody.innerHTML = "";
+        
+        filtered.forEach(order => {
+            const row = document.createElement("tr");
+            
+            [
+                order.type,
+                order.customer,
+                order.pickup,
+                order.dropoff
+            ].forEach(value => {
+                const cell = document.createElement("td");
+                cell.textContent = value;
+                row.appendChild(cell);
+            });
+            
+            const timeCell = document.createElement("td");
+            timeCell.textContent = order.createdAt ?
+                order.createdAt.toLocaleString() :
+                "Just received";
+            row.appendChild(timeCell);
+            
+            const statusCell = document.createElement("td");
+            const badge = document.createElement("span");
+            badge.className = "badge pending";
+            badge.textContent = order.status;
+            statusCell.appendChild(badge);
+            row.appendChild(statusCell);
+            
+            const actionCell = document.createElement("td");
+            
+            const callButton = document.createElement("button");
+            callButton.className = "call-btn";
+            callButton.textContent = "☎ Call";
+            
+            callButton.addEventListener("click", () => {
+                if (order.phone) {
+                    window.location.href = "tel:" + order.phone;
+                } else {
+                    alert("No phone number available.");
+                }
+            });
+            
+            const completeButton = document.createElement("button");
+            completeButton.className = "call-btn";
+            completeButton.textContent = "✓ Complete";
+            
+            completeButton.addEventListener("click", async () => {
+                try {
+                    await updateDoc(doc(db, "bookings", order.id), {
+                        status: "Completed"
+                    });
+                } catch (error) {
+                    console.error("Update error:", error);
+                    alert("Could not update booking. Check your Firestore rules.");
+                }
+            });
+            
+            actionCell.append(callButton, completeButton);
+            row.appendChild(actionCell);
+            
+            tableBody.appendChild(row);
+        });
+        
+        empty.style.display = filtered.length ? "none" : "block";
+        
+        if (!filtered.length) {
+            empty.textContent = "No bookings found.";
+        }
+        
+        const rideCount = document.getElementById("rideCount");
+        const dispatchCount = document.getElementById("dispatchCount");
+        
+        if (rideCount) {
+            rideCount.textContent =
+                orders.filter(order => order.type === "Ride").length;
+        }
+        
+        if (dispatchCount) {
+            dispatchCount.textContent =
+                orders.filter(order => order.type === "Dispatch").length;
+        }
+    }
+    
+    if (search) {
+        search.addEventListener("input", renderOrders);
+    }
+    
+    document.querySelectorAll("[data-view]").forEach(button => {
+        button.addEventListener("click", () => {
+            currentView = button.dataset.view;
+            
+            document.querySelectorAll("[data-view]").forEach(item => {
+                item.classList.toggle("active", item === button);
+            });
+            
+            renderOrders();
+        });
+    });
+    
+    // CHECK LOGIN AND LOAD FIREBASE BOOKINGS
+    onAuthStateChanged(auth, user => {
+        if (user) {
+            loginBox.style.display = "none";
+            
+            if (unsubscribeBookings) return;
+            
+            unsubscribeBookings = onSnapshot(
+                collection(db, "bookings"),
+                snapshot => {
+                    orders = snapshot.docs.map(item => {
+                        const data = item.data();
+                        
+                        return {
+                            id: item.id,
+                            type: data.order_type || "Ride",
+                            customer: data.customer_name || data.customer || "—",
+                            phone: data.phone || "",
+                            pickup: data.pickup || "—",
+                            dropoff: data.dropoff || data.destination || "—",
+                            status: data.status || "Pending",
+                            createdAt: data.created_at?.toDate ?
+                                data.created_at.toDate() :
+                                null
+                        };
+                    });
+                    
+                    orders.sort((a, b) =>
+                        (b.createdAt?.getTime() || 0) -
+                        (a.createdAt?.getTime() || 0)
+                    );
+                    
+                    renderOrders();
+                },
+                error => {
+                    console.error("Dashboard Firebase error:", error);
+                    
+                    empty.textContent =
+                        "Could not load bookings. Check Firebase permissions.";
+                    empty.style.display = "block";
+                }
+            );
+        } else {
+            if (unsubscribeBookings) {
+                unsubscribeBookings();
+                unsubscribeBookings = null;
+            }
+            
+            loginBox.style.display = "flex";
+        }
+    });
+</script>
+</body>
+</html>

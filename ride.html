@@ -161,10 +161,10 @@ opacity: 0;
     width: 90%;
     max-width: 340px;
 
-    height: 80vh;
+    height: auto;
     max-height: 90vh;
 
-    padding: 24px 22px;
+    padding: 18px;
 
     z-index: 3;
 
@@ -202,14 +202,14 @@ opacity: 0;
 30%{opacity:1}
 100%{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(0)}}
 
-h1{text-align:center;font-size:1.35rem;margin-bottom:16px
+h1{text-align:center;font-size:1.25rem;margin-bottom:10px
   
 }
 
-.field{position:relative;margin-bottom:16px}
+.field{position:relative;margin-bottom:10px}
 
 .field input,
-.field select{width:100%;padding:16px 14px 8px;border:2px solid transparent;border-radius:12px;
+.field select{width:100%;padding:10px 12px;border:2px solid transparent;border-radius:12px;
 background:rgba(255,255,255,.2);color:#fff;font-size:1rem;outline:none;transition:.3s}
 
 .field input:focus,
@@ -219,7 +219,7 @@ background:rgba(255,255,255,.2);color:#fff;font-size:1rem;outline:none;transitio
 
 .field select option{color:#000}
 
-.go{width:100%;padding:14px;border:none;border-radius:12px;background:#FBB12A;color:#220B53;font-size:1rem;font-weight:700;transition:transform .2s}
+.go{width:100%;padding:11px;border:none;border-radius:12px;background:#FBB12A;color:#220B53;font-size:1rem;font-weight:700;transition:transform .2s}
 
 .go:active{transform:scale(.97)}
 
@@ -228,6 +228,46 @@ background:rgba(255,255,255,.2);color:#fff;font-size:1rem;outline:none;transitio
 #inner.shake{animation:shake .4s}
 
 @keyframes shake{20%,60%{transform:translateX(-10px)}40%,80%{transform:translateX(10px)}}
+/* Text moves up and fades in */
+@keyframes textMoveUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+}
+
+.hero-content h1 {
+  animation: textMoveUp 0.9s ease-out both;
+}
+
+.hero-content p {
+  animation: textMoveUp 0.9s ease-out both;
+  animation-delay: 0.2s;
+}
+
+.hero-content .hero-buttons {
+  animation: textMoveUp 0.9s ease-out both;
+  animation-delay: 0.4s;
+}
+.sky-logo {
+position: absolute;
+top: 2px;
+left: 50%;
+transform: translateX(-50%);
+width: 50%;
+max-width: 450px;
+height: auto;
+z-index: 0;
+object-fit: contain;
+border-radius:54px;
+box-shadow:0 0 20px #FFFFFF;
+}
 </style>
 
 </head>
@@ -236,7 +276,7 @@ background:rgba(255,255,255,.2);color:#fff;font-size:1rem;outline:none;transitio
 
 <div class="sky" id="sky">
   
-  
+ <img src="ima/blogo.jpg" class="sky-logo"/>
   <div class="sun"></div>
 
   <div class="moon"></div>
@@ -245,7 +285,7 @@ background:rgba(255,255,255,.2);color:#fff;font-size:1rem;outline:none;transitio
 
   
 
-  <form class="card" id="card" onsubmit="return submitForm(event)">
+  <form class="card" id="card" >
 
     <div id="inner">
 
@@ -298,10 +338,10 @@ background:rgba(255,255,255,.2);color:#fff;font-size:1rem;outline:none;transitio
       <div class="field">
         <label for="vehicle">Vehicle</label>
 
-        <input type="text" id="vehi"
+        <input type="text" id="vehicle"
         placeholder="keke 🛺
         "
-        required>
+        readonly>
       </div>
 
       <button class="go" id="btn" type="submit">
@@ -369,30 +409,59 @@ for(let i=0;i<14;i++){
 const card=document.getElementById('card');
 
 card.classList.add('ready');
-
-function submitForm(e){
-  e.preventDefault();
-
-  const btn=document.getElementById('btn');
-
-  const msg=document.getElementById('msg');
-
-  btn.textContent='Booking...';
-
-  msg.textContent='';
-
-  setTimeout(()=>{
-
-    btn.textContent='✓ Ride Requested';
-
-    msg.textContent='Noble Services will contact you soon.';
-
-  },1500);
-
-  return false;
-}
-
 </script>
 
-</body>
-</html>
+// fierbase connection//
+
+
+<script type="module" >
+  import { db } from "./Firebase.js";
+
+import {
+  collection,
+  addDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+
+const card = document.getElementById("card");
+
+card.addEventListener("submit", async function(e) {
+  e.preventDefault();
+  
+  const btn = document.getElementById("btn");
+  const msg = document.getElementById("msg");
+  
+  const order = {
+    customer_name: document.getElementById("name").value.trim(),
+    phone: document.getElementById("phone").value.trim(),
+    pickup: document.getElementById("pickup").value.trim(),
+    dropoff: document.getElementById("destination").value.trim(),
+    order_type: "Ride",
+    vehicle: document.getElementById("vehicle").value.trim(),
+    status: "Pending",
+    created_at: serverTimestamp()
+  };
+  
+  btn.disabled = true;
+  btn.textContent = "Sending request...";
+  msg.textContent = "";
+  
+  try {
+    await addDoc(collection(db, "bookings"), order);
+    
+    msg.textContent = "Your ride request was received successfully!";
+    btn.textContent = "✓ Ride Requested";
+    card.reset();
+    
+  } catch (error) {
+    console.error("Firebase booking error:", error);
+    msg.textContent = "Request failed. Please try again.";
+    btn.textContent = "Book Ride";
+    
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+</script> 
+</body> </html>

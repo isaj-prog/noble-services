@@ -519,12 +519,28 @@ h1{
         margin-bottom:14px;
     }
 }
+.sky-logo {
+position: absolute;
+top: 2px;
+left: 50%;
+transform: translateX(-50%);
+width: 50%;
+max-width: 450px;
+height: auto;
+z-index: 0;
+object-fit: contain;
+border-radius:54px;
+box-shadow: 0 0 30px white;
+}
+
+
 </style>
 </head>
 
 <body>
 
 <div class="sky" id="sky">
+    <img src="ima/blogo.jpg" class="sky-logo"/>
 
     <div class="moon"></div>
 <div class="sun"></div>
@@ -538,7 +554,7 @@ h1{
 
     <!-- DISPATCH FORM -->
 
-    <form class="card" id="card" onsubmit="return submitForm(event)">
+    <form class="card" id="card" >
 
         <h1>📦 Noble Dispatch</h1>
 
@@ -683,23 +699,57 @@ setTimeout(() => {
 }, 1000);
 
 
-/* DISPATCH FORM SUBMISSION */
-
-function submitForm(e){
-
-    e.preventDefault();
-
-    const btn = document.getElementById("btn");
-    const msg = document.getElementById("msg");
-
-    btn.disabled = true;
-    btn.textContent = "Request Received";
-    msg.textContent = "Your details have been entered. Noble Services still needs a backend or messaging connection to receive this request.";
-
-    return false;
-}
-
 </script>
 
+<script type="module">
+import { db } from "./Firebase.js";
+
+import {
+  collection,
+  addDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+
+const form = document.getElementById("card");
+const button = document.getElementById("btn");
+const message = document.getElementById("msg");
+
+form.addEventListener("submit", async function(event) {
+  event.preventDefault();
+
+  const order = {
+    customer_name: document.getElementById("name").value.trim(),
+    phone: document.getElementById("phone").value.trim(),
+    pickup: document.getElementById("pickup").value.trim(),
+    dropoff: document.getElementById("destination").value.trim(),
+    package_details: document.getElementById("details").value.trim(),
+    order_type: "Dispatch",
+    vehicle: "",
+    status: "Pending",
+    created_at: serverTimestamp()
+  };
+
+  button.disabled = true;
+  button.textContent = "Sending request...";
+  message.textContent = "";
+
+  try {
+    await addDoc(collection(db, "bookings"), order);
+
+    message.textContent = "Your delivery request was received successfully!";
+    button.textContent = "✓ Request Sent";
+    form.reset();
+
+  } catch (error) {
+    console.error("Dispatch Firebase error:", error);
+    
+    message.textContent = error.code + ": " + error.message;
+    button.textContent = "Send Delivery Request";
+
+  } finally {
+    button.disabled = false;
+  }
+});
+</script>
 </body>
 </html>

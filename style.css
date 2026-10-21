@@ -71,11 +71,7 @@ header {
     color: var(--noble-purple);
 }
 
-.logo::after {
-    content: " SERVICES";
 
-    color: var(--noble-yellow);
-}
 
 
 /* NAVIGATION LINKS */
@@ -139,28 +135,70 @@ header {
     .navbar {
         padding: 16px 20px;
     }
-
+  
 }
 /* =========================
-   HERO SECTION
+HERO SECTION
 ========================= */
 
 .hero {
-    min-height: 85vh;
+min-height: 85vh;
+padding: 100px 30px;
 
-    padding: 100px 30px;
+display: flex;
+align-items: center;
+justify-content: center;
+text-align: center;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+position: relative;
+isolation: isolate;
+overflow: hidden;
 
-    text-align: center;
+background: var(--noble-purple);
+color: white;
 
-    background: var(--noble-purple);
-
-    color: white;
 }
 
+.hero::before {
+content: "";
+position: absolute;
+inset: 0;
+z-index: -2;
+
+background-image: linear-gradient(red,green);
+background-size: cover;
+background-position: center;
+
+animation: nobleSlideshow 6s infinite;
+
+}
+
+.hero::after {
+content: "";
+position: absolute;
+inset: 0;
+z-index: -1;
+
+background: rgba(34, 11, 83, 0.30);
+
+}
+
+@keyframes nobleSlideshow {
+0%, 30% {
+background-image: url("/ima/h1.jpg") ;
+}
+
+33%, 63% {
+    background-image: url("/ima/h2.jpg")
+    ;
+}
+
+66%, 96% {
+    background-image:url("/ima/h3.jpg") ;
+}
+
+
+}
 .hero-content {
     max-width: 850px;
 }
@@ -316,6 +354,7 @@ header {
 
         padding: 14px 20px;
     }
+}
 
 /* =========================
    SERVICES SECTION
@@ -361,7 +400,7 @@ header {
     gap: 25px;
 }
 
-.service-card {
+service-card {
     flex: 1;
     padding: 35px 30px;
     
@@ -890,4 +929,359 @@ header {
         margin-top: 45px;
     }
 
+}
+
+
+
+/* =========================
+GLASS HERO CARD
+========================= */
+
+.hero-content {
+    width: 100%;
+    max-width: 850px;
+    
+    padding: 55px 45px;
+    
+    background: rgba(255, 255, 255, 0.10);
+    
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    
+    border-radius: 20px;
+    
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.20);
+    
+    overflow: hidden;
+}
+
+/* MOBILE */
+
+@media (max-width: 800px) {
+    .hero-content {
+        max-width: 450px;
+        padding: 35px 20px;
+        border-radius: 16px;
+    }
+}
+
+/* =========================
+   NOBLE SERVICES CARD DESIGN
+========================= */
+
+.services-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    display: block;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 25px;
+}
+
+/* INDIVIDUAL CARD */
+
+.services-container .service-card {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+
+    background: white;
+    border: 1px solid #eeeeee;
+    border-radius: 16px;
+    overflow: hidden;
+
+    box-shadow: 0 5px 20px rgba(34, 11, 83, 0.08);
+    transition: transform 0.3s ease;
+}
+
+.services-container .service-card:hover {
+    transform: translateY(-5px);
+}
+
+/* CARD LABEL */
+
+.service-label {
+    padding: 15px 15px 12px;
+    margin: 0;
+
+    background: white;
+    color: var(--noble-purple);
+
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+/* IMAGE AREA */
+
+/* the gradient use to be here*/
+
+
+/* CARD TEXT AREA */
+
+.services-container .service-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    width: 100%;
+    padding: 20px;
+    overflow-wrap: anywhere;
+background: #E6E3DA;
+    
+}
+
+.services-container .service-info h3 {
+    margin: 0 0 12px;
+
+    color: var(--noble-purple);
+    font-size: 21px;
+    line-height: 1.4;
+}
+
+.services-container .service-info p {
+    margin: 0 0 20px;
+
+    color: #666666;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* BUTTON */
+
+.services-container .service-info .service-btn {
+    position: relative;
+    isolation: isolate;
+
+    display: block;
+    width: 160px;
+    max-width: 100%;
+    height: 48px;
+
+    flex-shrink: 0;
+    margin-top: auto;
+    padding: 0;
+
+    background: none;
+    border: none;
+    text-decoration: none;
+}
+
+.service-btn .top {
+    position: relative;
+    z-index: 2;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+
+    background: var(--noble-yellow);
+    color: #000000;
+
+    font-size: 15px;
+    font-weight: bold;
+    white-space: nowrap;
+
+    border: 2px solid var(--noble-purple);
+    border-radius: 18px;
+    transition: transform 0.2s ease;
+}
+
+.service-btn .tbottom {
+    position: absolute;
+    top: 2px;
+    left: 0;
+    z-index: 1;
+
+    width: 100%;
+    height: 100%;
+
+    background: #F9D09D;
+    border: 2px solid var(--noble-purple);
+    border-radius: 18px;
+}
+
+.service-btn:hover .top {
+    transform: translateY(-3px);
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (min-width: 601px) and (max-width: 900px) {
+    .services-container {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+    }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+    .services {
+        padding: 60px 15px;
+    }
+
+    .services-header {
+        margin-bottom: 35px;
+    }
+
+    .services-header h2 {
+        font-size: 34px;
+    }
+
+    .section-text {
+        font-size: 15px;
+    }
+
+    .services-container {
+        width: 100%;
+        max-width: 420px;
+        margin: 0 auto;
+
+        grid-template-columns: minmax(0, 1fr);
+        gap: 25px;
+    }
+
+    .services-container .service-card {
+        width: 100%;
+        min-width: 0;
+    }
+
+    
+
+    .services-container .service-info {
+        padding: 20px;
+    }
+
+    .services-container .service-info h3 {
+        font-size: 21px;
+    }
+
+    .services-container .service-info p {
+        font-size: 15px;
+    }
+
+    .services-container .service-info .service-btn {
+        width: 160px;
+        height: 48px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    body .services .services-container {
+        display: flex !important;
+        flex-direction: column !important;
+        flex-wrap: nowrap !important;
+        width: 100% !important;
+        max-width: 420px !important;
+        margin: 0 auto !important;
+        gap: 25px !important;
+    }
+    
+    body .services .services-container .service-card {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        height: auto !important;
+        flex: 0 0 auto !important;
+    }
+    
+    body .services .services-container .service-image {
+        width: 100% !important;
+        height: 220px !important;
+        flex: none !important;
+    }
+    
+    body .services .services-container .service-info {
+        width: 100% !important;
+        height: auto !important;
+        flex: none !important;
+    }
+}
+
+img{
+    display: block;
+    border-radius: 10px;
+    height: 100%;
+    margin:;
+    padding: ;
+}
+
+.service-image img {
+    transition: opacity 0.6s ease;
+}
+
+.service-image img.fade-out {
+    opacity: 0;
+}
+
+.service-image {
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+}
+
+.service-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+.logo {
+display: flex;
+align-items: center;
+flex-shrink: 0;
+}
+
+.logo img {
+display: block;
+width: 150px;
+height: auto;
+max-height: 80px;
+object-fit: contain;
+}
+
+/* Text moves up and fades in */
+@keyframes textMoveUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+}
+
+.hero-content h1 {
+    animation: textMoveUp 0.9s ease-out both;
+}
+
+.hero-content p {
+    animation: textMoveUp 0.9s ease-out both;
+    animation-delay: 0.2s;
+}
+
+.hero-content .hero-buttons {
+    animation: textMoveUp 0.9s ease-out both;
+    animation-delay: 0.4s;
 }
