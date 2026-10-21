@@ -376,47 +376,5 @@ market-image">
 
 </footer>
 
-
-<script>
-const cardSlideshows = [
-    {
-        selector: ".ride-image img",
-        images: ["./IMG-20261021-WA004.jpg", "./IMG-20261021-WA009.jpg"]
-    },
-    {
-        selector: ".dispatch-image img",
-        images: ["./IMG-20261021-WA007.jpg", "./IMG-20261021-WA005.jpg"]
-    }
-];
-
-cardSlideshows.forEach(function(slideshow) {
-    const img = document.querySelector(slideshow.selector);
-
-    if (!img) return;
-
-    let index = 0;
-
-    // Preload the slideshow images
-    slideshow.images.forEach(function(src) {
-        const preload = new Image();
-        preload.src = src;
-    });
-
-    setInterval(function() {
-        img.classList.add("fade-out");
-
-        setTimeout(function() {
-            index = (index + 1) % slideshow.images.length;
-            img.src = slideshow.images[index];
-
-            setTimeout(function() {
-                img.classList.remove("fade-out");
-            }, 50);
-
-        }, 600);
-
-    }, 4000);
-});
-</script>
 </body>
 </html>
