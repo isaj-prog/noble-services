@@ -185,16 +185,16 @@ background: rgba(34, 11, 83, 0.30);
 
 @keyframes nobleSlideshow {
 0%, 30% {
-background-image: url("/ima/h1.jpg") ;
+background-image: url("IMG-20261021-WA0012.jpg") ;
 }
 
 33%, 63% {
-    background-image: url("/ima/h2.jpg")
+    background-image: url("IMG-20261021-WA006.jpg")
     ;
 }
 
 66%, 96% {
-    background-image:url("/ima/h3.jpg") ;
+    background-image:url("IMG-20261021-WA008.jpg") ;
 }
 
 
